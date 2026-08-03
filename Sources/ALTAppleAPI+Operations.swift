@@ -670,7 +670,7 @@ public extension ALTAppleAPI {
                 verboseLog("[AltSign] sendRequest(plist) failed with error: \(error)")
             }
             guard let data, !data.isEmpty else {
-                let err = error ?? ALTServerError.badServerResponse(reason: "Server returned empty response (Content-Length: 0) — session may have timed out", jsonPayload: "0 bytes")
+                let err = error ?? ALTServerError.badServerResponse(reason: "服务器返回空响应（内容长度为 0）— 会话可能已超时", jsonPayload: "0 字节")
                 completionHandler(nil, err)
                 return
             }

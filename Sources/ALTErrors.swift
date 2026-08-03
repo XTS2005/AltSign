@@ -201,7 +201,7 @@ extension NSError {
             return NSLocalizedString("验证码不正确。", comment: "")
 
         case .authenticationHandshakeFailed:
-            return NSLocalizedString("与服务器进行身份验证握手失败。", comment: "")
+            return NSLocalizedString("与服务器进行身份验证协商失败。", comment: "")
 
         case .invalidAnisetteData:
             return NSLocalizedString("提供的 anisette 数据无效。", comment: "")
