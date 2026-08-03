@@ -177,10 +177,10 @@ extension NSError {
             return NSLocalizedString("请求的应用包名无法注册或已被其它开发者账户注册。", comment: "")
 
         case .appIDDoesNotExist:
-            return NSLocalizedString("此团队没有请求的标识符对应的 App ID。", comment: "")
+            return NSLocalizedString("此团队没有请求的标识符对应的应用 ID。", comment: "")
 
         case .maximumAppIDLimitReached:
-            return NSLocalizedString("你每 7 天只能注册 10 个 App ID。", comment: "")
+            return NSLocalizedString("你每 7 天只能注册 10 个应用 ID。", comment: "")
 
         case .invalidAppGroup:
             return NSLocalizedString("提供的应用组无效。", comment: "")
