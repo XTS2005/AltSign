@@ -119,7 +119,7 @@ extension ALTAppleAPI {
             if let desc, !desc.isEmpty {
                 localizedDescription = "\(desc) (\(resultCode))"
             } else {
-                localizedDescription = "Apple Developer API error (\(resultCode))"
+                localizedDescription = "Apple Developer API 错误（\(resultCode)）"
             }
 
             tempError = NSError(
@@ -222,7 +222,7 @@ extension ALTAppleAPI {
                 verboseLog("[AltSign] sendRequest failed with error: \(error)")
             }
             guard let data, !data.isEmpty else {
-                let err = error ?? ALTServerError.badServerResponse(reason: "Server returned empty response (Content-Length: 0) — session may have timed out", jsonPayload: "0 bytes")
+                let err = error ?? ALTServerError.badServerResponse(reason: "服务器返回了空响应（Content-Length: 0）——会话可能已超时", jsonPayload: "0 bytes")
                 verboseLog("[AltSign] sendRequest server returned 0 bytes / empty response")
                 completionHandler(nil, err)
                 return
@@ -343,7 +343,7 @@ extension ALTAppleAPI {
                     verboseLog("[AltSign] sendServicesRequest: successful empty response for DELETE or 204")
                     completionHandler([:], nil)
                 } else {
-                    let err = error ?? ALTServerError.badServerResponse(reason: "Server returned empty response (Content-Length: 0) — session may have timed out", jsonPayload: "0 bytes")
+                    let err = error ?? ALTServerError.badServerResponse(reason: "服务器返回了空响应（Content-Length: 0）——会话可能已超时", jsonPayload: "0 bytes")
                     verboseLog("[AltSign] sendServicesRequest server returned 0 bytes / empty response")
                     completionHandler(nil, err)
                 }

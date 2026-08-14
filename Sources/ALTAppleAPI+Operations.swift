@@ -299,7 +299,7 @@ public extension ALTAppleAPI {
         let foldedName = name.folding(options: .diacriticInsensitive, locale: nil)
         var sanitizedName = String(foldedName.unicodeScalars.filter { allowedCharacters.contains($0) })
         if sanitizedName.isEmpty {
-            sanitizedName = "App"
+            sanitizedName = "应用"
         }
         
         let parameters = [
@@ -332,7 +332,7 @@ public extension ALTAppleAPI {
                     return NSError(domain: ALTAppleAPIErrorDomain, code: ALTAppleAPIError.invalidBundleIdentifier.rawValue, userInfo: nil) as Error
                 default:
                     let desc = (responseDictionary["userString"] ?? responseDictionary["resultString"]) as? String ?? ""
-                    let localizedDescription = !desc.isEmpty ? "\(desc) (\(resultCode))" : "Apple Developer API error (\(resultCode))"
+                    let localizedDescription = !desc.isEmpty ? "\(desc) (\(resultCode))" : "Apple Developer API 错误（\(resultCode)）"
                     return NSError(domain: ALTUnderlyingAppleAPIErrorDomain, code: resultCode, userInfo: [NSLocalizedDescriptionKey: localizedDescription]) as Error
                 }
             }, error: &error) as? ALTAppID
@@ -680,7 +680,7 @@ public extension ALTAppleAPI {
                 verboseLog("[AltSign] sendRequest(plist) failed with error: \(error)")
             }
             guard let data, !data.isEmpty else {
-                let err = error ?? ALTServerError.badServerResponse(reason: "Server returned empty response (Content-Length: 0) — session may have timed out", jsonPayload: "0 bytes")
+                let err = error ?? ALTServerError.badServerResponse(reason: "服务器返回了空响应（Content-Length: 0）——会话可能已超时", jsonPayload: "0 bytes")
                 completionHandler(nil, err)
                 return
             }

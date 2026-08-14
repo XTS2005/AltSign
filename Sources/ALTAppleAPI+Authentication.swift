@@ -68,7 +68,7 @@ public extension ALTAppleAPI
                           let serverPublicKey = responseDictionary["B"] as? Data
                     else {
                         verboseLog("[AltSign] Failed to parse authentication init response dictionary: \(responseDictionary)")
-                        throw ALTServerError.badServerResponse(reason: "Auth init response missing c/s/i/B parameters", jsonPayload: self.formatPayloadJSON(responseDictionary))
+                        throw ALTServerError.badServerResponse(reason: "认证初始化响应缺少 c/s/i/B 参数", jsonPayload: self.formatPayloadJSON(responseDictionary))
                     }
 
                     verboseLog("""
@@ -110,7 +110,7 @@ public extension ALTAppleAPI
                                   let statusDictionary = responseDictionary["Status"] as? [String: Any]
                             else {
                                 verboseLog("[AltSign] Failed to parse complete response dictionary: \(responseDictionary)")
-                                throw ALTServerError.badServerResponse(reason: "Auth complete response missing M2/spd/Status parameters", jsonPayload: self.formatPayloadJSON(responseDictionary))
+                                throw ALTServerError.badServerResponse(reason: "认证完成响应缺少 M2/spd/Status 参数", jsonPayload: self.formatPayloadJSON(responseDictionary))
                             }
 
                             verboseLog("""
@@ -511,7 +511,7 @@ private extension ALTAppleAPI {
                         verboseLog("[AltSign] sendAuthenticationRequest failed with error: \(error)")
                     }
                     guard let data = data, !data.isEmpty else {
-                        let err = error ?? ALTServerError.badServerResponse(reason: "Server returned empty response (Content-Length: 0) — session may have timed out", jsonPayload: "0 bytes")
+                        let err = error ?? ALTServerError.badServerResponse(reason: "服务器返回了空响应（Content-Length: 0）——会话可能已超时", jsonPayload: "0 bytes")
                         throw err
                     }
 

@@ -141,7 +141,7 @@ public enum LdidBridge {
         public var errorDescription: String? {
             switch self {
             case .invalidPath:
-                return "The path provided to ldid is invalid."
+                return "提供给 ldid 的路径无效。"
             case .operationFailed(let message):
                 return message
             }
@@ -198,7 +198,7 @@ public enum LdidBridge {
         let targetURL: URL
         if isDir.boolValue {
             guard let execURL = findExecutable(at: url) else {
-                throw Error.operationFailed("Failed to locate executable in bundle: \(url.path)")
+                throw Error.operationFailed("在 Bundle 中找不到可执行文件：\(url.path)")
             }
             targetURL = execURL
         } else {
@@ -216,7 +216,7 @@ public enum LdidBridge {
             return ""
         } catch {
             debugLog("[AltSign] LdidBridge.entitlements failed to parse Mach-O: \(error)")
-            throw Error.operationFailed("Failed to parse Mach-O entitlements: \(error.localizedDescription)")
+            throw Error.operationFailed("解析 Mach-O 授权失败：\(error.localizedDescription)")
         }
     }
 
@@ -231,7 +231,7 @@ public enum LdidBridge {
         let targetURL: URL
         if isDir.boolValue {
             guard let execURL = findExecutable(at: url) else {
-                throw Error.operationFailed("Failed to locate executable in bundle: \(url.path)")
+                throw Error.operationFailed("在 Bundle 中找不到可执行文件：\(url.path)")
             }
             targetURL = execURL
         } else {
@@ -248,7 +248,7 @@ public enum LdidBridge {
             return ""
         } catch {
             debugLog("[AltSign] LdidBridge.requirements failed to parse Mach-O: \(error)")
-            throw Error.operationFailed("Failed to parse Mach-O requirements: \(error.localizedDescription)")
+            throw Error.operationFailed("解析 Mach-O 要求失败：\(error.localizedDescription)")
         }
     }
 
@@ -263,7 +263,7 @@ public enum LdidBridge {
         }
         
         guard let inputP12 = d2i_PKCS12_bio(bio, nil) else {
-            throw Error.operationFailed("failed to parse PKCS12 data")
+            throw Error.operationFailed("解析 PKCS12 数据失败")
         }
         defer { PKCS12_free(inputP12) }
         
@@ -271,7 +271,7 @@ public enum LdidBridge {
         var cert: OpaquePointer? = nil
         
         guard PKCS12_parse(inputP12, "", &key, &cert, nil) == 1 else {
-            throw Error.operationFailed("failed to decrypt PKCS12 data")
+            throw Error.operationFailed("解密 PKCS12 数据失败")
         }
         defer {
             if let key { EVP_PKEY_free(key) }
@@ -279,11 +279,11 @@ public enum LdidBridge {
         }
         
         guard let key, let cert else {
-            throw Error.operationFailed("key or certificate missing")
+            throw Error.operationFailed("缺少密钥或证书")
         }
         
         guard let certificates = OPENSSL_sk_new_null() else {
-            throw Error.operationFailed("allocation failed")
+            throw Error.operationFailed("内存分配失败")
         }
         defer { OPENSSL_sk_pop_free(certificates, free_x509_callback) }
         
@@ -296,7 +296,7 @@ public enum LdidBridge {
 
         guard let rootCert = readCertFromPEM(AppleRootCertificateData) else {
             let openSSLErr = getOpenSSLError()
-            throw Error.operationFailed("failed to parse Apple Root CA certificate during chain of trust packaging\ncause: \(openSSLErr)")
+            throw Error.operationFailed("打包信任链时解析 Apple Root CA 证书失败\n原因：\(openSSLErr)")
         }
         OPENSSL_sk_push(certificates, UnsafeRawPointer(rootCert))
         
@@ -307,13 +307,13 @@ public enum LdidBridge {
             
         guard let wwdrCert = readCertFromPEM(wwdrData) else {
             let openSSLErr = getOpenSSLError()
-            throw Error.operationFailed("failed to parse Apple WWDR certificate during chain of trust packaging\ncause: \(openSSLErr)")
+            throw Error.operationFailed("打包信任链时解析 Apple WWDR 证书失败\n原因：\(openSSLErr)")
         }
         OPENSSL_sk_push(certificates, UnsafeRawPointer(wwdrCert))
         
         guard let outputP12 = PKCS12_create("", "", key, cert, certificates, 0, 0, 0, 0, 0) else {
             let openSSLErr = getOpenSSLError()
-            throw Error.operationFailed("failed to package certificate chain during chain of trust packaging\ncause: \(openSSLErr)")
+            throw Error.operationFailed("打包信任链时打包证书链失败\n原因：\(openSSLErr)")
         }
         defer { PKCS12_free(outputP12) }
         
@@ -324,7 +324,7 @@ public enum LdidBridge {
         
         guard let outputData = CertificatesManager.dataFromBIO(outputBio) else {
             let openSSLErr = getOpenSSLError()
-            throw Error.operationFailed("failed to retrieve packaged chain data during chain of trust packaging\ncause: \(openSSLErr)")
+            throw Error.operationFailed("打包信任链时检索打包后的链数据失败\n原因：\(openSSLErr)")
         }
         
         return outputData
@@ -375,7 +375,7 @@ public enum LdidBridge {
         }
 
         if status != 0 {
-            let message = errorPtr.map { String(cString: $0) } ?? "ldid sign failed"
+            let message = errorPtr.map { String(cString: $0) } ?? "ldid 签名失败"
             debugLog("[AltSign] LdidBridge.sign native signing failed with error: \(message)")
             if let errorPtr { native_bridge_free_string(errorPtr) }
             throw Error.operationFailed(message)

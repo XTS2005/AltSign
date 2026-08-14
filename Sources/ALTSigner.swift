@@ -120,7 +120,7 @@ private extension ALTSigner {
                                 throw NSError(
                                     domain: AltSignErrorDomain,
                                     code: ALTError.invalidApp.rawValue,
-                                    userInfo: [NSLocalizedFailureReasonErrorKey: "The keychain access group '\(group)' does not contain a Team ID prefix."]
+                                    userInfo: [NSLocalizedFailureReasonErrorKey: "钥匙串访问组 '\(group)' 不包含团队 ID 前缀。"]
                                 )
                             }
                             

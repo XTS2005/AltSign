@@ -18,20 +18,20 @@ public enum ALTCertificateError: LocalizedError, Equatable {
         let cause: String?
         switch self {
         case .invalidFormat(let c):
-            base = "The data is not in PKCS12 format."
+            base = "数据不是 PKCS12 格式。"
             cause = c
         case .decryptionFailed(let c):
-            base = "Decryption failed. Please check if the password is correct."
+            base = "解密失败。请检查密码是否正确。"
             cause = c
         case .extractionFailed(let c):
-            base = "Failed to extract certificate or private key from PKCS12 archive."
+            base = "从 PKCS12 归档中提取证书或私钥失败。"
             cause = c
         case .memoryAllocationFailed(let c):
-            base = "Out of memory. Memory allocation failed during PKCS12 extraction."
+            base = "内存不足。PKCS12 提取期间内存分配失败。"
             cause = c
         }
         if let cause = cause {
-            return "\(base)\ncause: \(cause)"
+            return "\(base)\n原因：\(cause)"
         }
         return base
     }

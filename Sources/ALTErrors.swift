@@ -116,15 +116,15 @@ extension NSError {
 
         switch code {
         case .unknown:
-            return NSLocalizedString("An unknown error occured.", comment: "")
+            return NSLocalizedString("发生未知错误。", comment: "")
         case .invalidApp:
-            return NSLocalizedString("The app is invalid.", comment: "")
+            return NSLocalizedString("应用无效。", comment: "")
         case .missingAppBundle:
-            return NSLocalizedString("The provided .ipa does not contain an app bundle.", comment: "")
+            return NSLocalizedString("所提供的 .ipa 不包含应用 Bundle。", comment: "")
         case .missingInfoPlist:
-            return NSLocalizedString("The provided app is missing its Info.plist.", comment: "")
+            return NSLocalizedString("所提供的应用缺少 Info.plist。", comment: "")
         case .missingProvisioningProfile:
-            return NSLocalizedString("Could not find matching provisioning profile.", comment: "")
+            return NSLocalizedString("找不到匹配的描述文件。", comment: "")
         }
     }
 
@@ -138,76 +138,76 @@ extension NSError {
             return NSLocalizedString("An unknown error occured.", comment: "")
 
         case .invalidParameters:
-            return NSLocalizedString("The provided parameters are invalid.", comment: "")
+            return NSLocalizedString("所提供的参数无效。", comment: "")
 
         case .incorrectCredentials:
-            return NSLocalizedString("Your Apple ID or password is incorrect.", comment: "")
+            return NSLocalizedString("你的 Apple ID 或密码不正确。", comment: "")
 
         case .noTeams:
-            return NSLocalizedString("You are not a member of any development teams.", comment: "")
+            return NSLocalizedString("你不是任何开发团队的成员。", comment: "")
 
         case .appSpecificPasswordRequired:
-            return NSLocalizedString("An app-specific password is required. You can create one at appleid.apple.com.", comment: "")
+            return NSLocalizedString("需要应用专用密码。你可以在 appleid.apple.com 上创建一个。", comment: "")
 
         case .invalidDeviceID:
-            return NSLocalizedString("This device's UDID is invalid.", comment: "")
+            return NSLocalizedString("此设备的 UDID 无效。", comment: "")
 
         case .deviceAlreadyRegistered:
-            return NSLocalizedString("This device is already registered with this team.", comment: "")
+            return NSLocalizedString("此设备已在此团队注册。", comment: "")
 
         case .invalidCertificateRequest:
-            return NSLocalizedString("The certificate request is invalid.", comment: "")
+            return NSLocalizedString("证书请求无效。", comment: "")
 
         case .certificateDoesNotExist:
-            return NSLocalizedString("There is no certificate with the requested serial number for this team.", comment: "")
+            return NSLocalizedString("此团队没有所请求序列号的证书。", comment: "")
 
         case .invalidAppIDName:
             if let appName = userInfo[ALTAppNameErrorKey as String] as? String {
                 return String(
-                    format: NSLocalizedString("The name “%@” contains invalid characters.", comment: ""),
+                    format: NSLocalizedString("名称“%@”包含无效字符。", comment: ""),
                     appName
                 )
             }
-            return NSLocalizedString("The name of this app contains invalid characters.", comment: "")
+            return NSLocalizedString("此应用的名称包含无效字符。", comment: "")
             
         case .invalidBundleIdentifier:
-            return NSLocalizedString("The bundle identifier for this app is invalid.", comment: "")
+            return NSLocalizedString("此应用的 Bundle 标识符无效。", comment: "")
 
         case .bundleIdentifierUnavailable:
-            return NSLocalizedString("Requested bundle identifier is unavailable for registration or already registered by another developer account.", comment: "")
+            return NSLocalizedString("所请求的 Bundle 标识符无法注册，或已被其它开发者账户注册。", comment: "")
 
         case .appIDDoesNotExist:
-            return NSLocalizedString("There is no App ID with the requested identifier on this team.", comment: "")
+            return NSLocalizedString("此团队没有所请求标识符的应用 ID。", comment: "")
 
         case .maximumAppIDLimitReached:
-            return NSLocalizedString("You may only register 10 App IDs every 7 days.", comment: "")
+            return NSLocalizedString("每 7 天最多只能注册 10 个应用 ID。", comment: "")
 
         case .invalidAppGroup:
-            return NSLocalizedString("The provided app group is invalid.", comment: "")
+            return NSLocalizedString("所提供的 App Group 无效。", comment: "")
 
         case .appGroupDoesNotExist:
-            return NSLocalizedString("App group does not exist", comment: "")
+            return NSLocalizedString("App Group 不存在", comment: "")
 
         case .invalidProvisioningProfileIdentifier:
-            return NSLocalizedString("The identifier for the requested provisioning profile is invalid.", comment: "")
+            return NSLocalizedString("所请求描述文件的标识符无效。", comment: "")
 
         case .provisioningProfileDoesNotExist:
-            return NSLocalizedString("There is no provisioning profile with the requested identifier on this team.", comment: "")
+            return NSLocalizedString("此团队没有所请求标识符的描述文件。", comment: "")
 
         case .requiresTwoFactorAuthentication:
-            return NSLocalizedString("This account requires signing in with two-factor authentication.", comment: "")
+            return NSLocalizedString("此账户需要使用双重认证登录。", comment: "")
 
         case .incorrectVerificationCode:
-            return NSLocalizedString("Incorrect verification code.", comment: "")
+            return NSLocalizedString("验证码不正确。", comment: "")
 
         case .authenticationHandshakeFailed:
-            return NSLocalizedString("Failed to perform authentication handshake with server.", comment: "")
+            return NSLocalizedString("与服务器执行身份验证握手失败。", comment: "")
 
         case .invalidAnisetteData:
-            return NSLocalizedString("The provided anisette data is invalid.", comment: "")
+            return NSLocalizedString("所提供的 anisette 数据无效。", comment: "")
         
         case .tooManyCertificates:
-            return NSLocalizedString("The maximum number of certificates for this account has been reached.", comment: "")
+            return NSLocalizedString("此账户的证书数量已达到上限。", comment: "")
         }
     }
 
@@ -219,19 +219,19 @@ extension NSError {
 
         case .incorrectCredentials:
             return NSLocalizedString(
-                "Please make sure you entered both your Apple ID and password correctly and try again.",
+                "请确保你同时正确输入了 Apple ID 和密码，然后重试。",
                 comment: ""
             )
 
         case .invalidAnisetteData:
             #if os(macOS)
             return NSLocalizedString(
-                "Make sure this computer's date & time matches your iOS device and try again.",
+                "请确保此电脑的日期和时间与你的 iOS 设备一致，然后重试。",
                 comment: ""
             )
             #else
             return NSLocalizedString(
-                "Make sure your computer's date & time matches your iOS device and try again. You may need to re-install AltStore with AltServer if the problem persists.",
+                "请确保你电脑的日期和时间与 iOS 设备一致，然后重试。如果问题仍然存在，你可能需要使用 AltServer 重新安装 AltStore。",
                 comment: ""
             )
             #endif
@@ -293,7 +293,7 @@ public enum ALTServerError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .badServerResponse(let reason, let jsonPayload):
-            return "Invalid server response: \(reason) (Payload: '\(jsonPayload)')"
+            return "无效的服务器响应：\(reason)（负载：'\(jsonPayload)'）"
         case .invalidResponseFormat(let rawPayload):
             let trimmed = rawPayload.trimmingCharacters(in: .whitespacesAndNewlines)
             let formattedPayload: String
@@ -309,9 +309,9 @@ public enum ALTServerError: LocalizedError {
             } else {
                 formattedPayload = "'\(rawPayload)'"
             }
-            return "Invalid server response: unparseable format (Payload: \(formattedPayload))"
+            return "无效的服务器响应：格式无法解析（负载：\(formattedPayload)）"
         case .missingKey(let key, let jsonPayload):
-            return "Invalid server response: missing required key '\(key)' (Payload: '\(jsonPayload)')"
+            return "无效的服务器响应：缺少必需键 '\(key)'（负载：'\(jsonPayload)'）"
         }
     }
 }

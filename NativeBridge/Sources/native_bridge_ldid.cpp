@@ -48,13 +48,13 @@ int native_bridge_ldid_sign(
     try {
         if (!appPath) {
             if (errorMessage) {
-                *errorMessage = strdup("Invalid arguments: appPath is null");
+                *errorMessage = strdup("无效的参数：appPath 为 null");
             }
             return 1;
         }
         if (!keyData || keyLen <= 0) {
             if (errorMessage) {
-                *errorMessage = strdup("Invalid arguments: keyData is null or empty");
+                *errorMessage = strdup("无效的参数：keyData 为 null 或为空");
             }
             return 2;
         }

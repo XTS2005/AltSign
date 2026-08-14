@@ -149,7 +149,7 @@ public enum CertificatesManager {
               let rsa = RSA_new(),
               let pkey = EVP_PKEY_new(),
               let req = X509_REQ_new() else {
-            throw Error.operationFailed("Allocation failed")
+            throw Error.operationFailed("内存分配失败")
         }
 
         var rsaFreed = false
@@ -161,24 +161,24 @@ public enum CertificatesManager {
         }
 
         guard BN_set_word(bignum, 65537) == 1 else {
-            throw Error.operationFailed("BN_set_word failed")
+            throw Error.operationFailed("BN_set_word 失败")
         }
 
         guard RSA_generate_key_ex(rsa, 2048, bignum, nil) == 1 else {
-            throw Error.operationFailed("RSA_generate_key_ex failed")
+            throw Error.operationFailed("RSA_generate_key_ex 失败")
         }
 
         guard EVP_PKEY_set1_RSA(pkey, rsa) == 1 else {
-            throw Error.operationFailed("EVP_PKEY_set1_RSA failed")
+            throw Error.operationFailed("EVP_PKEY_set1_RSA 失败")
         }
         rsaFreed = true
 
         guard X509_REQ_set_version(req, 0) == 1 else {
-            throw Error.operationFailed("set_version failed")
+            throw Error.operationFailed("set_version 失败")
         }
 
         guard let name = X509_REQ_get_subject_name(req) else {
-            throw Error.operationFailed("subject build failed")
+            throw Error.operationFailed("构建主题失败")
         }
 
         let addEntry: (String, String) -> Bool = { field, value in
@@ -190,15 +190,15 @@ public enum CertificatesManager {
               addEntry("L", subject.locality),
               addEntry("O", subject.organization),
               addEntry("CN", subject.commonName) else {
-            throw Error.operationFailed("subject build failed")
+            throw Error.operationFailed("构建主题失败")
         }
 
         guard X509_REQ_set_pubkey(req, pkey) == 1 else {
-            throw Error.operationFailed("set_pubkey failed")
+            throw Error.operationFailed("set_pubkey 失败")
         }
 
         guard X509_REQ_sign(req, pkey, EVP_sha1()) > 0 else {
-            throw Error.operationFailed("sign failed")
+            throw Error.operationFailed("签名失败")
         }
 
         let csrBIO = BIO_new(BIO_s_mem())
@@ -210,12 +210,12 @@ public enum CertificatesManager {
 
         guard PEM_write_bio_X509_REQ(csrBIO, req) == 1,
               PEM_write_bio_PrivateKey(keyBIO, pkey, nil, nil, 0, nil, nil) == 1 else {
-            throw Error.operationFailed("PEM write failed")
+            throw Error.operationFailed("PEM 写入失败")
         }
 
         guard let csrData = dataFromBIO(csrBIO),
               let keyData = dataFromBIO(keyBIO) else {
-            throw Error.operationFailed("BIO allocation failed")
+            throw Error.operationFailed("BIO 分配失败")
         }
 
         verboseLog("[AltSign] CertificatesManager.generateCSR succeeded. Generated CSR size: \(csrData.count) bytes, privateKey size: \(keyData.count) bytes")
@@ -350,7 +350,7 @@ public enum CertificatesManager {
             let firstBytes = cert.prefix(4).map { String(format: "%02x", $0) }.joined()
             let cause = getOpenSSLError()
             debugLog("[AltSign] CertificatesManager.createPKCS12 failed: readCert returned nil (cert data size: \(cert.count) bytes, first bytes: \(firstBytes)) (cause: \(cause))")
-            throw Error.operationFailed("failed to parse certificate during PKCS12 generation\ncause: \(cause)")
+            throw Error.operationFailed("PKCS12 生成期间解析证书失败\n原因：\(cause)")
         }
         defer { X509_free(certX509) }
 
@@ -360,7 +360,7 @@ public enum CertificatesManager {
             if keyPkey == nil {
                 let cause = getOpenSSLError()
                 debugLog("[AltSign] CertificatesManager.createPKCS12 failed: readPrivateKey returned nil (key data size: \(keyData.count) bytes) (cause: \(cause))")
-                throw Error.operationFailed("failed to parse private key during PKCS12 generation\ncause: \(cause)")
+                throw Error.operationFailed("PKCS12 生成期间解析私钥失败\n原因：\(cause)")
             }
         }
         defer { if let keyPkey { EVP_PKEY_free(keyPkey) } }
@@ -369,7 +369,7 @@ public enum CertificatesManager {
         if let password = password {
             guard let passStr = password.cString(using: .utf8) else {
                 verboseLog("[AltSign] CertificatesManager.createPKCS12 failed: invalid UTF-8 password string")
-                throw Error.operationFailed("invalid UTF-8 password string")
+                throw Error.operationFailed("无效的 UTF-8 密码字符串")
             }
             p12 = passStr.withUnsafeBufferPointer { buf in
                 PKCS12_create(buf.baseAddress, "", keyPkey, certX509, nil, 0, 0, 0, 0, 0)
@@ -381,7 +381,7 @@ public enum CertificatesManager {
         guard let p12 = p12 else {
             let cause = getOpenSSLError()
             debugLog("[AltSign] CertificatesManager.createPKCS12 failed: PKCS12_create returned nil (cause: \(cause))")
-            throw Error.operationFailed("failed to create PKCS12 container\ncause: \(cause)")
+            throw Error.operationFailed("创建 PKCS12 容器失败\n原因：\(cause)")
         }
         defer { PKCS12_free(p12) }
 
@@ -393,7 +393,7 @@ public enum CertificatesManager {
         guard let result = dataFromBIO(bio) else {
             let cause = getOpenSSLError()
             debugLog("[AltSign] CertificatesManager.createPKCS12 failed: dataFromBIO returned nil (cause: \(cause))")
-            throw Error.operationFailed("failed to read PKCS12 data from BIO\ncause: \(cause)")
+            throw Error.operationFailed("从 BIO 读取 PKCS12 数据失败\n原因：\(cause)")
         }
 
         verboseLog("[AltSign] CertificatesManager.createPKCS12 succeeded. Output size: \(result.count) bytes")
@@ -411,7 +411,7 @@ public enum CertificatesManager {
 
 public func getOpenSSLError() -> String {
     let errCode = ERR_get_error()
-    guard errCode != 0 else { return "unknown error" }
+    guard errCode != 0 else { return "未知错误" }
     var buf = [CChar](repeating: 0, count: 256)
     ERR_error_string_n(errCode, &buf, buf.count)
     return String(cString: buf)

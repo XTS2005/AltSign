@@ -240,19 +240,19 @@ extension ZipError: LocalizedError {
         switch self {
 
         case .fileNotFound(let url):
-            return "File not found: \(url.lastPathComponent)"
+            return "找不到文件：\(url.lastPathComponent)"
 
         case .corruptArchive(let url):
-            return "Archive appears to be corrupt: \(url.lastPathComponent)"
+            return "归档似乎已损坏：\(url.lastPathComponent)"
 
         case .readFailed(let url):
-            return "Failed to read archive: \(url.lastPathComponent)"
+            return "读取归档失败：\(url.lastPathComponent)"
 
         case .writeFailed(let url):
-            return "Failed to write archive: \(url.lastPathComponent)"
+            return "写入归档失败：\(url.lastPathComponent)"
 
         case .missingAppBundle(let url):
-            return "No .app bundle found inside \(url.lastPathComponent)"
+            return "在 \(url.lastPathComponent) 中找不到 .app Bundle"
         }
     }
 }

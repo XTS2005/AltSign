@@ -198,7 +198,7 @@ public final class ALTCertificate: NSObject, Identifiable {
         password: String?
     ) throws {
         guard p12Data.isPKCS12 else {
-            throw ALTCertificateError.invalidFormat(cause: "The data does not start with a valid PKCS12 sequence.")
+            throw ALTCertificateError.invalidFormat(cause: "数据不是以有效的 PKCS12 序列开头。")
         }
 
         let result: (cert: Data, key: Data)
@@ -223,14 +223,14 @@ public final class ALTCertificate: NSObject, Identifiable {
         }
 
         guard let parsed = CertificatesManager.parseCertificate(pemData) else {
-            throw ALTCertificateError.extractionFailed(cause: "Failed to parse certificate subject or fields. OpenSSL: \(getOpenSSLError())")
+            throw ALTCertificateError.extractionFailed(cause: "解析证书主题或字段失败。OpenSSL：\(getOpenSSLError())")
         }
 
         var serial = parsed.serial
         if let idx = serial.firstIndex(where: { $0 != "0" }) {
             serial = String(serial[idx...])
         } else {
-            throw ALTCertificateError.extractionFailed(cause: "The parsed certificate has a missing or empty serial number.")
+            throw ALTCertificateError.extractionFailed(cause: "解析后的证书缺少序列号或序列号为空。")
         }
 
         let x509 = ALTX509Certificate(name: parsed.name, serialNumber: serial, data: pemData)
