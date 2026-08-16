@@ -135,7 +135,7 @@ extension NSError {
         switch code {
 
         case .unknown:
-            return NSLocalizedString("An unknown error occured.", comment: "")
+            return NSLocalizedString("发生未知错误。", comment: "")
 
         case .invalidParameters:
             return NSLocalizedString("所提供的参数无效。", comment: "")

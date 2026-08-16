@@ -243,7 +243,7 @@ public enum CertificatesManager {
         if let password = password {
             guard let passStr = password.cString(using: .utf8) else {
                 verboseLog("[AltSign] CertificatesManager.extractPKCS12 Invalid password string. Cannot be parsed as UTF-8 string.")
-                throw ALTCertificateError.decryptionFailed(cause: "Invalid UTF-8 password string.")
+                throw ALTCertificateError.decryptionFailed(cause: "无效的 UTF-8 密码字符串。")
             }
             res = passStr.withUnsafeBufferPointer { buf in
                 PKCS12_parse(p12, buf.baseAddress, &key, &cert, nil)

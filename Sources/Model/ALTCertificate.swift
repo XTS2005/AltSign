@@ -271,7 +271,7 @@ public final class ALTCertificate: NSObject, Identifiable {
     /// Encrypted PKCS#12 Export (pass = password, including "")
     public func encryptedP12Data(password: String?) throws -> Data {
         guard let certData = data else {
-            throw ALTCertificateError.extractionFailed(cause: "Certificate PEM data is missing.")
+            throw ALTCertificateError.extractionFailed(cause: "证书 PEM 数据缺失。")
         }
         return try CertificatesManager.createPKCS12(
             cert: certData,
